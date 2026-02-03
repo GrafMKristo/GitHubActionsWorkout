@@ -1,0 +1,40 @@
+name: Environment variables scope test
+on: workflow_dispatch
+env:
+  WORKFLOW_SCOPE: "Workflow scope"
+
+jobs:
+  job-1:
+    runs-on: ubuntu-24.04
+    env:
+      JOB_SCOPE: "Job scope"
+
+    steps:
+      - name: Step 1
+        env:          
+          STEP_SCOPE: "Step scope 1"
+        run: |
+          echo "WORKFLOW_SCOPE: ${WORKFLOW_SCOPE:-<\"NOT DEFINED\">}"
+          echo "JOB_SCOPE: ${JOB_SCOPE:-<\"NOT DEFINED\">}"
+          echo "STEP_SCOPE: ${STEP_SCOPE:-<\"NOT DEFINED\">}"
+        
+      - name: Step 2
+        run: |
+          echo "WORKFLOW_SCOPE: ${WORKFLOW_SCOPE:-<\"NOT DEFINED\">}"
+          echo "JOB_SCOPE: ${JOB_SCOPE:-<\"NOT DEFINED\">}"
+          echo "STEP_SCOPE: ${STEP_SCOPE:-<\"NOT DEFINED\">}"      
+  
+  job-2:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Step 1
+        run: |
+          echo "WORKFLOW_SCOPE: ${WORKFLOW_SCOPE:-<\"NOT DEFINED\">}"
+          echo "JOB_SCOPE: ${JOB_SCOPE:-<\"NOT DEFINED\">}"
+          echo "STEP_SCOPE: ${STEP_SCOPE:-<\"NOT DEFINED\">}"
+        
+      - name: Step 2
+        run: |
+          echo "WORKFLOW_SCOPE: ${WORKFLOW_SCOPE:-<\"NOT DEFINED\">}"
+          echo "JOB_SCOPE: ${JOB_SCOPE:-<\"NOT DEFINED\">}"
+          echo "STEP_SCOPE: ${STEP_SCOPE:-<\"NOT DEFINED\">}"
