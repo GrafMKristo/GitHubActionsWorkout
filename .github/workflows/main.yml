@@ -1,0 +1,32 @@
+name: Upload, download artifacts
+on: workflow_dispatch
+jobs:
+  artifact-producer:
+    name: Produce artifact
+    runs-on: ${{vars.RUNS_ON_UBUNTU_24}}
+    steps:
+      - name: Create a txt file
+        run: |
+          echo "Строчка для артефакта" > ${{secrets.TXT_ARTIFACT_NAME}}          
+          echo "Сгенерировано $(date)" >> ${{secrets.TXT_ARTIFACT_NAME}}
+
+      - name: Upload the txt file
+        uses: actions/upload-artifact@4
+        with:
+          name: the-artifact
+          path: ${{secrets.TXT_ARTIFACT_NAME}}
+
+
+  artifact-consumer:
+    name: Consume artifact
+    runs-on: ${{vars.RUNS_ON_UBUNTU_24}}
+    needs:
+      - artifact-producer
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: the-artifact
+
+      - name: Cat artifact file
+        run: cat ${{secrets.TXT_ARTIFACT_NAME}}
