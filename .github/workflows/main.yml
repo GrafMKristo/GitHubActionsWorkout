@@ -11,7 +11,7 @@ jobs:
           echo "Сгенерировано $(date)" >> ${{secrets.TXT_ARTIFACT_NAME}}
 
       - name: Upload the txt file
-        uses: actions/upload-artifact@4
+        uses: actions/upload-artifact@v4
         with:
           name: the-artifact
           path: ${{secrets.TXT_ARTIFACT_NAME}}
